@@ -16,6 +16,7 @@ import { FullCalendarComponent } from '@fullcalendar/angular';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { FormControl } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
+import { AppointmentModalComponent } from './appointment-modal/appointment-modal.component';
 
 @Component({
   selector: 'app-root',
@@ -50,9 +51,7 @@ b { /* used for event dates/times */
   line-height: 1.5;
   background: rgba(0, 0, 0, 0.5);
   z-index: 1;
-
 }
-
 .calendar-details {
   line-height: 1.5;
   background: #7FC7D9;
@@ -101,7 +100,9 @@ export class AppComponent {
       },
       makeAppointmentBtn: {
         text: 'Make Appointment',
-        click: () => {},
+        click: () => {
+          this.makeAppointmentModal();
+        },
       },
     },
     initialView: 'dayGridMonth',
@@ -114,11 +115,9 @@ export class AppComponent {
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
-    /* you can update a remote database when these fire:
-    eventAdd:
-    eventChange:
-    eventRemove:
-    */
+    // eventAdd:
+    // eventChange:
+    // eventRemove:
   });
   currentEvents = signal<EventApi[]>([]);
 
@@ -166,5 +165,13 @@ export class AppComponent {
     const calendarApi = this.calendarComponent.getApi();
     calendarApi.gotoDate(`${selectedYear}-01-01`);
     this.viewYearDropDown = false;
+  }
+
+  makeAppointmentModal(): void {
+    const dialogRef = this.dialog.open(AppointmentModalComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed');
+    });
   }
 }

@@ -1,4 +1,4 @@
-<div class="container">
+<div class="w-screen mx-auto">
   <section class="calendar">
     <full-calendar *ngIf="calendarVisible()" [options]="calendarOptions()">
       <ng-template #eventContent let-arg>
@@ -8,7 +8,7 @@
     </full-calendar>
   </section>
 
-  <section class="calendar-details">
+  <section class="rounded bg-blue-400 mx-auto">
     <div class="calendar-details-section"></div>
     <div class="calendar-details-section">
       <h2>All Events ({{ currentEvents.length }})</h2>
@@ -23,7 +23,8 @@
 </div>
 
 @if (viewYearDropDown) {
-<!-- <section class="year-modal">
+<!-- <app-select-year-modal (onChangeYear)="(onChangeYear)" /> -->
+<section class="year-modal">
   <div class="flex justify-center items-center w-full h-full">
     <mat-form-field>
       <mat-label>Select year</mat-label>
@@ -34,8 +35,5 @@
       </mat-select>
     </mat-form-field>
   </div>
-</section> -->
-
-<app-select-year-modal (onChangeYear)="(onChangeYear)" />
-
+</section>
 }
