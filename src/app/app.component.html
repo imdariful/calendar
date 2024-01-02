@@ -22,16 +22,20 @@
   </section>
 </div>
 
-<!-- Make drop down modal -->
-<div class="year-modal">
+@if (viewYearDropDown) {
+<!-- <section class="year-modal">
   <div class="flex justify-center items-center w-full h-full">
     <mat-form-field>
       <mat-label>Select year</mat-label>
-      <mat-select (ngModelChange)="onChangeYear()">
-        @for (year of yearsList; track year) {
-        <mat-option [value]="year.value">{{ year.viewValue }}</mat-option>
-        }
+      <mat-select (selectionChange)="onChangeYear($event)">
+        <mat-option *ngFor="let year of yearsList" [value]="year.value">{{
+          year.viewValue
+        }}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
-</div>
+</section> -->
+
+<app-select-year-modal (onChangeYear)="(onChangeYear)" />
+
+}

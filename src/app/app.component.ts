@@ -13,7 +13,9 @@ import multiMonthPlugin from '@fullcalendar/multimonth';
 import { INITIAL_EVENTS, createEventId, yearsList } from './util';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { FormControl } from '@angular/forms';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-root',
@@ -40,7 +42,7 @@ b { /* used for event dates/times */
 }
 
 .year-modal {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -48,6 +50,7 @@ b { /* used for event dates/times */
   line-height: 1.5;
   background: rgba(0, 0, 0, 0.5);
   z-index: 1;
+
 }
 
 .calendar-details {
@@ -75,7 +78,7 @@ b { /* used for event dates/times */
 export class AppComponent {
   @ViewChild(FullCalendarComponent) calendarComponent!: FullCalendarComponent;
 
-  viewModal: boolean = false;
+  viewYearDropDown: boolean = false;
 
   yearsList = yearsList;
 
@@ -93,10 +96,7 @@ export class AppComponent {
       changeYearBtn: {
         text: 'Change Year',
         click: () => {
-          // handle the click event, show dropdown for year selection
-          console.log('customYear clicked');
-          const calendarApi = this.calendarComponent.getApi();
-          calendarApi.gotoDate(`${new Date().getFullYear()}-01-01`);
+          this.viewYearDropDown = true;
         },
       },
       makeAppointmentBtn: {
@@ -122,7 +122,10 @@ export class AppComponent {
   });
   currentEvents = signal<EventApi[]>([]);
 
-  constructor(private changeDetector: ChangeDetectorRef) {}
+  constructor(
+    private changeDetector: ChangeDetectorRef,
+    public dialog: MatDialog
+  ) {}
 
   handleDateSelect(selectInfo: DateSelectArg) {
     const title = prompt('Please enter a new title for your event');
@@ -157,8 +160,11 @@ export class AppComponent {
   }
 
   changeToCustomYear() {}
-  onChangeYear() {
+
+  onChangeYear(year: MatSelectChange) {
+    const selectedYear = year.value;
     const calendarApi = this.calendarComponent.getApi();
-    calendarApi.gotoDate(`${new Date().getFullYear()}-01-01`);
+    calendarApi.gotoDate(`${selectedYear}-01-01`);
+    this.viewYearDropDown = false;
   }
 }

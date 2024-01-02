@@ -1,0 +1,12 @@
+<section class="year-modal">
+  <div class="flex justify-center items-center w-full h-full">
+    <mat-form-field>
+      <mat-label>Select year</mat-label>
+      <mat-select (selectionChange)="onChangeYearHandler($event)">
+        <mat-option *ngFor="let year of yearsList" [value]="year.value">{{
+          year.viewValue
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</section>
