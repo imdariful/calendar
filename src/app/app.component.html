@@ -13,9 +13,10 @@
     <div class="calendar-details-section">
       <h2>All Events ({{ currentEvents.length }})</h2>
       <ul>
-        <li *ngFor="let event of allEvents">
-          <b>{{ event.startStr }}</b>
-          <i>{{ event.title }}</i>
+        <li *ngFor="let event of allEvents" class="list-none flex">
+          <div class="bg-slate-400">
+            <p>{{ event.title }} {{ event.start | date : "shortTime" }}</p>
+          </div>
         </li>
       </ul>
     </div>
@@ -23,7 +24,6 @@
 </div>
 
 @if (viewYearDropDown) {
-<!-- <app-select-year-modal (onChangeYear)="(onChangeYear)" /> -->
 <section class="year-modal">
   <div class="flex justify-center items-center w-full h-full">
     <mat-form-field>

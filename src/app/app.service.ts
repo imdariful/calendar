@@ -42,10 +42,4 @@ export class AppService {
     filtered.push(data);
     localStorage.setItem(dbName, JSON.stringify(filtered));
   }
-
-
-
-
-
-
 }

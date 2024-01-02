@@ -16,6 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { MatDialogClose } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     MatDatepickerModule,
     MatNativeDateModule,
     NgxMaterialTimepickerModule,
+    MatDialogClose,
   ],
   providers: [],
   bootstrap: [AppComponent],

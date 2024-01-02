@@ -86,10 +86,11 @@ export class AppComponent implements OnInit {
   allEvents: any[] = [];
 
   ngOnInit(): void {
-    // get the data from local storage
     const data = this.getInitialDataFromLocalStorage();
+
     if (data) {
       this.allEvents = data;
+      this.updateInitialEvents();
     }
   }
 
@@ -105,7 +106,6 @@ export class AppComponent implements OnInit {
       left: 'prev next changeYearBtn makeAppointmentBtn',
       center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
-      // make a drop down to change year
     },
     customButtons: {
       changeYearBtn: {
@@ -122,7 +122,7 @@ export class AppComponent implements OnInit {
       },
     },
     initialView: 'dayGridMonth',
-    initialEvents: this.allEvents, // get data from local storage
+    events: this.allEvents,
     weekends: true,
     editable: true,
     selectable: true,
@@ -131,9 +131,6 @@ export class AppComponent implements OnInit {
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this),
-    // eventAdd:
-    // eventChange:
-    // eventRemove:
   });
   currentEvents = signal<EventApi[]>([]);
 
@@ -146,7 +143,7 @@ export class AppComponent implements OnInit {
     const title = prompt('Please enter a new title for your event');
     const calendarApi = selectInfo.view.calendar;
 
-    calendarApi.unselect(); // clear date selection
+    calendarApi.unselect();
 
     if (title) {
       calendarApi.addEvent({
@@ -171,7 +168,7 @@ export class AppComponent implements OnInit {
 
   handleEvents(events: EventApi[]) {
     this.currentEvents.set(events);
-    this.changeDetector.detectChanges(); // workaround for pressionChangedAfterItHasBeenCheckedError
+    this.changeDetector.detectChanges();
   }
 
   changeToCustomYear() {}
@@ -188,6 +185,7 @@ export class AppComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
+      this.updateInitialEvents();
     });
   }
 
@@ -197,5 +195,13 @@ export class AppComponent implements OnInit {
       return JSON.parse(data);
     }
     return null;
+  }
+
+  updateInitialEvents(): void {
+    this.allEvents = this.getInitialDataFromLocalStorage();
+    this.calendarOptions.update((options) => ({
+      ...options,
+      events: this.allEvents,
+    }));
   }
 }
