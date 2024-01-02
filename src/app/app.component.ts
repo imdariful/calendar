@@ -1,4 +1,10 @@
-import { Component, signal, ChangeDetectorRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  signal,
+  ChangeDetectorRef,
+  ViewChild,
+  OnInit,
+} from '@angular/core';
 import {
   CalendarOptions,
   DateSelectArg,
@@ -74,8 +80,18 @@ b { /* used for event dates/times */
 }
 `,
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   @ViewChild(FullCalendarComponent) calendarComponent!: FullCalendarComponent;
+
+  allEvents: any[] = [];
+
+  ngOnInit(): void {
+    // get the data from local storage
+    const data = this.getInitialDataFromLocalStorage();
+    if (data) {
+      this.allEvents = data;
+    }
+  }
 
   viewYearDropDown: boolean = false;
 
@@ -106,7 +122,7 @@ export class AppComponent {
       },
     },
     initialView: 'dayGridMonth',
-    initialEvents: INITIAL_EVENTS, // alternatively, use the events setting to fetch from a feed
+    initialEvents: this.allEvents, // get data from local storage
     weekends: true,
     editable: true,
     selectable: true,
@@ -173,5 +189,13 @@ export class AppComponent {
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed');
     });
+  }
+
+  getInitialDataFromLocalStorage() {
+    const data = localStorage.getItem('appointments');
+    if (data) {
+      return JSON.parse(data);
+    }
+    return null;
   }
 }

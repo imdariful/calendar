@@ -8,12 +8,12 @@
     </full-calendar>
   </section>
 
-  <section class="rounded bg-blue-400 mx-auto">
+  <section class="rounded bg-slate-200 mx-auto mx">
     <div class="calendar-details-section"></div>
     <div class="calendar-details-section">
       <h2>All Events ({{ currentEvents.length }})</h2>
       <ul>
-        <li *ngFor="let event of currentEvents()">
+        <li *ngFor="let event of allEvents">
           <b>{{ event.startStr }}</b>
           <i>{{ event.title }}</i>
         </li>
